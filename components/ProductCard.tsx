@@ -29,8 +29,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       {/* SISI KANAN: INFO */}
       <div className="flex-grow p-6 flex flex-col justify-between bg-white relative">
         <div className="space-y-1">
-          <span className="text-[9px] font-black text-gray-400 tracking-widest uppercase">Premium Varian</span>
-          <h3 className="font-brand text-[20px] font-black text-gray-900 leading-tight uppercase tracking-tight line-clamp-2">
+          <h3 className="font-brand text-[16px] font-black text-gray-900 leading-tight uppercase tracking-tight line-clamp-2">
             {product.name}
           </h3>
           <div className="h-[2px] w-8 bg-gray-100 mt-2"></div>
