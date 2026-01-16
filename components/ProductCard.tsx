@@ -60,7 +60,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <div className="bg-gray-900 rounded-xl p-5 shadow-xl relative overflow-hidden">
           <div className="absolute top-0 right-0 w-16 h-16 bg-white/5 rounded-full -mr-8 -mt-8"></div>
           <span className="text-[9px] font-black text-white/40 uppercase tracking-widest block mb-1">Total Keuntungan</span>
-          <span className="text-[22px] font-black text-white leading-none tracking-tight block">
+          <span className="text-[18px] font-black text-white leading-none tracking-tight block">
             {FORMAT_CURRENCY(totalKeuntungan)}
           </span>
         </div>
