@@ -61,7 +61,7 @@ const App: React.FC = () => {
 
   const [systemContent, setSystemContent] = useState(() => {
     const saved = localStorage.getItem('armani_system');
-    return saved ? JSON.parse(saved) : {
+    const defaultSystem = {
       visualMode: 'kesalahan',
       common: {
         title: "DETEKSI SISTEM",
@@ -88,6 +88,7 @@ const App: React.FC = () => {
         kreditAwal: 100,
         kreditSaatIni: 56,
         kreditNote: "1 POIN KREDIT = RP 810.000 (1%)",
+        totalPemulihanText: "TOTAL PEMULIHAN: IDR 35.640.000",
         description: "Setiap akun Anggota akan pendapatkan 100 poin kredit setelah proses pendaftaran selesai, Poin kredit ini di gunakan sebai tolok ukur untuk mengevaluasi tingkat kepercayaan pelanggan. Penurunan poin kredit terjadi akibat penundaan penyelesaian pemulihan yang di lakukan oleh anggota serta kesalahan dalam proses penarikan yang terjadi sebelumnya",
         bulletPoints: [],
         recoveryMsg: "Harap melakukan setoran sejumlah Rp 123.235.650 untuk menaikan poin kredit menjadi 100 dan sejumlah Rp 253.369.215 dapat ditarik.",
@@ -110,6 +111,19 @@ const App: React.FC = () => {
       },
       infoBoxMsg: "SISTEM KEAMANAN MENDETEKSI ADANYA TINDAKAN ILEGAL pada PROSES PENARIKAN DANA. HARAP SEGERA LAKUKAN PROSEDUR PEMULIHAN SESUAI DENGAN KETENTUAN PERUSAHAAN UNTUK MENGAKTIFKAN KEMBALI FITUR TRANSAKSI ANDA."
     };
+
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      // Merge with default to ensure new fields like totalPemulihanText exist
+      return {
+        ...parsed,
+        kredit: {
+          ...defaultSystem.kredit,
+          ...parsed.kredit
+        }
+      };
+    }
+    return defaultSystem;
   });
 
   const [bankContent, setBankContent] = useState(() => {
@@ -401,7 +415,7 @@ const App: React.FC = () => {
                           <p className="text-[11px] font-sans font-medium text-[#1a1a1a] uppercase tracking-widest">{s.kredit.kreditNote}</p>
                           <div className="border-b border-[#b8860b] px-4 pb-1">
                             <h3 className="text-[20px] font-sans font-semibold text-[#b8860b] uppercase tracking-widest italic">
-                               TOTAL PEMULIHAN: IDR {FORMAT_CURRENCY((s.kredit.kreditAwal - s.kredit.kreditSaatIni) * 810000).replace('IDR ', '')}
+                               {s.kredit.totalPemulihanText}
                             </h3>
                           </div>
                        </div>
@@ -704,8 +718,9 @@ const App: React.FC = () => {
                               <AdminInput label="Kredit Poin AWAL" type="number" value={systemContent.kredit.kreditAwal} onChange={(v: any) => setSystemContent((p: any) => ({...p, kredit: {...p.kredit, kreditAwal: Number(v)}}))} />
                               <AdminInput label="Kredit Poin Saat INI" type="number" value={systemContent.kredit.kreditSaatIni} onChange={(v: any) => setSystemContent((p: any) => ({...p, kredit: {...p.kredit, kreditSaatIni: Number(v)}}))} />
                             </div>
-                            <div className="mt-4">
+                            <div className="mt-4 space-y-4">
                               <AdminInput label="Note Konversi (e.g. 1 POIN = ...)" value={systemContent.kredit.kreditNote} onChange={(v: any) => setSystemContent((p: any) => ({...p, kredit: {...p.kredit, kreditNote: v}}))} />
+                              <AdminInput label="Total Pemulihan Text (Manual)" value={systemContent.kredit.totalPemulihanText} onChange={(v: any) => setSystemContent((p: any) => ({...p, kredit: {...p.kredit, totalPemulihanText: v}}))} />
                             </div>
                             <div className="mt-4 space-y-3 border-t border-white/10 pt-4">
                               <AdminTextarea label="Deskripsi Catatan Resmi (Sidebar)" value={systemContent.kredit.description} onChange={(v: any) => setSystemContent((p: any) => ({...p, kredit: {...p.kredit, description: v}}))} />
