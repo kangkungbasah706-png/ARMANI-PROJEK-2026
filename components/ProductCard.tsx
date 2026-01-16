@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { FORMAT_CURRENCY } from '../constants';
 
@@ -50,7 +49,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             <div className="flex items-center gap-1.5">
                <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div>
                <span className="text-[10px] font-black text-gray-900 uppercase">
-                 {product.statusText || 'A+ STATUS'}
+                 {product.statusText || 'Cek Detail'}
                </span>
             </div>
           </div>

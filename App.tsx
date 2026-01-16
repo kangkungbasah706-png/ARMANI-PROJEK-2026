@@ -18,7 +18,7 @@ const App: React.FC = () => {
 
   const [detailContent, setDetailContent] = useState(() => {
     const saved = localStorage.getItem('armani_detail');
-    return saved ? JSON.parse(saved) : {
+    const defaultDetail = {
       subtitle: "Official Internal Document",
       title: "DETAIL PROMOTION",
       accId: "ADVANCED GROUP",
@@ -27,18 +27,18 @@ const App: React.FC = () => {
       contractStatus: "Legal Agreement Active",
       warningText: "SETIAP MISI PEKERJAAN DISELESAIKAN, PENARIKAN DAPAT LANGSUNG DI LAKUKAN. HARAP SELESAIKAN PEKERJAAN INI DALAM WAKTU YANG DI TENTUKAN",
       contractItems: [
-        "Bagian tidak terpisahkan dari perjanjian pengguna.",
-        "Dana otomatis dikonversi menjadi saldo akun.",
-        "Prosedur sesuai Sistem GIORGIO ARMANI.",
-        "Aktivasi tugas berarti memahami isi perjanjian.",
-        "Berlaku sebagai bukti sah tanpa tanda tangan."
+        "Detail tugas merupakan bagian dari perjanjian resmi Pengguna dan Sistem.",
+        "Dana yang dikirim akan otomatis menjadi saldo akun kerja.",
+        "Seluruh proses mengikuti ketentuan sistem yang berlaku.",
+        "Aktivasi tugas berarti Pengguna menyetujui seluruh ketentuan.",
+        "Dokumen ini sah tanpa tanda tangan tertulis."
       ],
       jobItems: [
         { h: "Ketentuan", c: "Pesanan diterbitkan otomatis oleh pusat." },
-        { h: "Proses", c: "Sistem memproses tugas secara terjadwal." },
-        { h: "Tugas", c: "Satu pesanan mencakup satu produk unik." },
-        { h: "Status", c: "Restriksi aktif sebelum pesanan dinyatakan final." },
-        { h: "Validasi", c: "Wajib mengikuti arahan mentor pembimbing." }
+        { h: "Proses", c: "Sistem memproses tugas secara otomatis." },
+        { h: "Tugas", c: "Satu pesanan satu produk total satu pesanan" },
+        { h: "Status", c: "Jika tugas belum selesai, sistem tidak dapat mengizinkan penarikan" },
+        { h: "Konfirmasi", c: "Wajib mengikuti arahan mentor pembimbing." }
       ],
       workflowItems: [
         { n: "01", t: "SISTEM", d: "Masuk akun bisnis" },
@@ -46,6 +46,17 @@ const App: React.FC = () => {
         { n: "03", t: "PROFIT", d: "Selesai & terima komisi" }
       ]
     };
+
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      // Ensure the newly requested items are reflected
+      return { 
+        ...parsed, 
+        contractItems: defaultDetail.contractItems,
+        jobItems: defaultDetail.jobItems
+      };
+    }
+    return defaultDetail;
   });
 
   const [systemContent, setSystemContent] = useState(() => {
@@ -77,9 +88,9 @@ const App: React.FC = () => {
         kreditAwal: 100,
         kreditSaatIni: 56,
         kreditNote: "1 POIN KREDIT = RP 810.000 (1%)",
-        description: "Anggota melanggar aturan penarikan dan jumlah penarikan tidak sesuai dengan jumlah yang di tentukan oleh sistem, sehingga menyebabkan beberapa hal :",
-        bulletPoints: ["SALURAN PENARIKAN TERKUNCI", "INFORMASI TUGAS HILANG", "KREDIBILITAS AKUN MENURUN"],
-        recoveryMsg: "PENGGUNA PERLU MELAKUKAN PEMULIHAN SALURAN PENARIKAN DENGAN MELAKUKAN PENGISIAN SALDO KEDALAM AKUN KERJA RP9.900.000 UNTUK MENGEMBALIKAN DATA TUGAS YANG HILANG, AGAR DAPAT MELAKUKAN PENARIKAN KEMBALI SEPERTI SEMULA.",
+        description: "Setiap akun Anggota akan pendapatkan 100 poin kredit setelah proses pendaftaran selesai, Poin kredit ini di gunakan sebai tolok ukur untuk mengevaluasi tingkat kepercayaan pelanggan. Penurunan poin kredit terjadi akibat penundaan penyelesaian pemulihan yang di lakukan oleh anggota serta kesalahan dalam proses penarikan yang terjadi sebelumnya",
+        bulletPoints: [],
+        recoveryMsg: "Harap melakukan setoran sejumlah Rp 123.235.650 untuk menaikan poin kredit menjadi 100 dan sejumlah Rp 253.369.215 dapat ditarik.",
       },
       verifikasi: {
         verifPercent: 50,
@@ -89,11 +100,15 @@ const App: React.FC = () => {
           { label: "KESALAHAN 2", val: 15750000 },
           { label: "KESALAHAN 3", val: 13037500 }
         ],
-        description: "Anggota melanggar aturan penarikan dan jumlah penarikan tidak sesuai dengan jumlah yang di tentukan oleh sistem, sehingga menyebabkan beberapa hal :",
-        bulletPoints: ["SALURAN PENARIKAN TERKUNCI", "INFORMASI TUGAS HILANG", "KREDIBILITAS AKUN MENURUN"],
-        recoveryMsg: "PENGGUNA PERLU MELAKUKAN PEMULIHAN SALURAN PENARIKAN DENGAN MELAKUKAN PENGISIAN SALDO KEDALAM AKUN KERJA RP9.900.000 UNTUK MENGEMBALIKAN DATA TUGAS YANG HILANG, AGAR DAPAT MELAKUKAN PENARIKAN KEMBALI SEPERTI SEMULA.",
+        description: "Verifikasi akun di perlukan karena anggota telah melakukan kesalahan berulang kali, sebagai berikut :",
+        bulletPoints: [
+          "Melakukan penarikan yang tidak sesuai dengan ketentuan sistem",
+          "Melebihi batas waktu yang di tentukan",
+          "Kredit poin menurun 80 poin"
+        ],
+        recoveryMsg: "Harap melakukan setoran verifikasi sejumlah Rp 95.452.375 dan sejumlah Rp 300.000.000 akan langsung di proses ke Rekening anggota tanpa kendala.",
       },
-      infoBoxMsg: "SISTEM KEAMANAN MENDETEKSI ADANYA TINDAKAN ILEGAL PADA PROSES PENARIKAN DANA. HARAP SEGERA LAKUKAN PROSEDUR PEMULIHAN SESUAI DENGAN KETENTUAN PERUSAHAAN UNTUK MENGAKTIFKAN KEMBALI FITUR TRANSAKSI ANDA."
+      infoBoxMsg: "SISTEM KEAMANAN MENDETEKSI ADANYA TINDAKAN ILEGAL pada PROSES PENARIKAN DANA. HARAP SEGERA LAKUKAN PROSEDUR PEMULIHAN SESUAI DENGAN KETENTUAN PERUSAHAAN UNTUK MENGAKTIFKAN KEMBALI FITUR TRANSAKSI ANDA."
     };
   });
 
@@ -309,7 +324,6 @@ const App: React.FC = () => {
       const s = systemContent;
       const common = s.common;
       const currentModeData = s[s.visualMode];
-      const isKreditMode = s.visualMode === 'kredit';
       const accentColor = '#b8860b'; // Gold accent consistent for all system modes
 
       return (
@@ -333,10 +347,10 @@ const App: React.FC = () => {
                 </div>
                 <div className="grid grid-cols-2 gap-x-16 gap-y-4 relative z-10">
                    {[
-                     { l: "Akun Pengguna", v: common.accNo }, { l: "Tanggal Laporan", v: common.reportDate },
-                     { l: "Pemilik Rekening", v: common.owner }, { l: "Status Aktivitas", v: common.status, highlight: true },
-                     { l: "Institusi Bank", v: common.bank }, { l: "Total Pembayaran", v: FORMAT_CURRENCY(common.pembayaran) },
-                     { l: "Nomor Rekening", v: common.rek }, { l: "Frekuensi Siklus", v: common.frequency },
+                     { l: "Akun Pengguna", v: common.accNo }, { l: "TANGGAL", v: common.reportDate },
+                     { l: "Pemilik Rekening", v: common.owner }, { l: "STATUS AKUN", v: common.status, highlight: true },
+                     { l: "Institusi Bank", v: common.bank }, { l: "PEMBAYARAN", v: FORMAT_CURRENCY(common.pembayaran) },
+                     { l: "Nomor Rekening", v: common.rek }, { l: "FREKUENSI", v: common.frequency },
                      { l: "Informasi Saldo", v: FORMAT_CURRENCY(common.saldo) }, { l: "Total Pendapatan", v: FORMAT_CURRENCY(common.pendapatan) }
                    ].map((item, i) => (
                      <div key={i} className="flex justify-between items-end border-b border-[#b8860b]/10 pb-1.5 hover:bg-white/5 transition-colors px-1">
@@ -444,7 +458,7 @@ const App: React.FC = () => {
                            </tbody>
                         </table>
                        </div>
-                       <div className="bg-[#1a1a1a] p-3 rounded-sm flex justify-between items-center text-white border border-[#b8860b]/20 shadow-xl mt-4">
+                       <div className="bg-[#1a1a1a] p-3 rounded-sm flex justify-between items-center text-white border border-[#b8860b]/20 shadow-xl mt-24">
                           <span className="text-[11px] font-sans font-medium uppercase tracking-[0.2em] opacity-60">TOTAL BIAYA VERIFIKASI AKTIF</span>
                           <span className="text-[20px] font-sans font-semibold text-[#b8860b] tracking-wider italic">
                              {FORMAT_CURRENCY(s.verifikasi.verifList.reduce((acc: number, curr: any) => acc + curr.val, 0) * (s.verifikasi.verifPercent / 100))}
@@ -455,15 +469,15 @@ const App: React.FC = () => {
                  </div>
               </div>
 
-              {/* RIGHT: CATATAN RESMI (Dynamic per Mode & Styled per Screenshot) */}
+              {/* RIGHT: KETERANGAN (Dynamic per Mode & Styled per Screenshot) */}
               <div className={`col-span-5 bg-[#1a1a1a] border-l-[6px] flex flex-col p-6 shadow-2xl rounded-sm h-full`} style={{ borderColor: accentColor }}>
                  <div className={`w-full border-b pb-3 mb-4`} style={{ borderColor: `${accentColor}4D` }}>
-                   <span className={`text-[13px] font-brand font-semibold uppercase tracking-[0.4em]`} style={{ color: accentColor }}>Catatan Resmi Perusahaan</span>
+                   <span className={`text-[13px] font-brand font-semibold uppercase tracking-[0.4em]`} style={{ color: accentColor }}>KETERANGAN</span>
                  </div>
                  <div className="space-y-6 flex-grow overflow-hidden flex flex-col justify-center">
-                  <p className="text-[14px] font-sans font-normal leading-relaxed text-gray-200 text-justify italic opacity-85">
-                    "{currentModeData.description}"
-                  </p>
+                  <div className="text-[14px] font-sans font-normal leading-relaxed text-gray-200 text-justify italic opacity-85">
+                    {currentModeData.description}
+                  </div>
                   <div className="space-y-4">
                     {currentModeData.bulletPoints.map((text: string, i: number) => (
                       <div key={i} className="flex items-center gap-4 group">
@@ -493,6 +507,12 @@ const App: React.FC = () => {
           <div className="w-[920px] h-[540px] bg-white shadow-[0_40px_90px_-20px_rgba(0,0,0,0.1)] relative overflow-hidden border border-gray-200 flex flex-col rounded-2xl">
             <div className="w-full h-[8px] bg-gradient-to-r from-[#b8860b] via-[#ffd700] to-[#b8860b] shrink-0"></div>
             <div className="flex-grow flex flex-col px-20 pt-16 pb-14 relative z-10">
+              {/* STATUS BADGE POSITIONED AT TOP RIGHT */}
+              <div className="absolute top-16 right-20">
+                <span className="text-[10px] font-black text-white uppercase tracking-[0.4em] px-8 py-3 rounded-full bg-gradient-to-r from-[#b8860b] via-[#8e6e3c] to-[#b8860b] shadow-xl">
+                  {b.status}
+                </span>
+              </div>
               <div className="mb-12 border-b border-gray-100 pb-10">
                 <h2 className="text-[38px] font-brand font-black tracking-tight leading-none uppercase bg-gradient-to-r from-[#b8860b] via-[#8e6e3c] to-[#b8860b] bg-clip-text text-transparent">
                   Bank Account <span className="text-gray-900">Card</span>
@@ -519,11 +539,6 @@ const App: React.FC = () => {
                     <span className="text-[24px] font-brand font-black text-gray-900 uppercase pl-10 border-l border-gray-100">{b.owner}</span>
                   </div>
                 </div>
-              </div>
-              <div className="absolute bottom-12 right-12">
-                <span className="text-[10px] font-black text-white uppercase tracking-[0.4em] px-8 py-3 rounded-full bg-gradient-to-r from-[#b8860b] via-[#8e6e3c] to-[#b8860b] shadow-xl">
-                  {b.status}
-                </span>
               </div>
             </div>
           </div>
@@ -643,7 +658,6 @@ const App: React.FC = () => {
 
                 {adminTab === 'system' && (
                   <div className="space-y-8">
-                    {/* IDENTITY PANEL - GLOBAL WITHIN SYSTEM CONTROL */}
                     <AdminGroup label="Panel Identitas (Global)">
                       <div className="grid grid-cols-2 gap-x-8 gap-y-4">
                         <AdminInput label="Akun" value={systemContent.common.accNo} onChange={(v: any) => setSystemContent((p: any) => ({...p, common: {...p.common, accNo: v}}))} />
@@ -659,7 +673,6 @@ const App: React.FC = () => {
                       </div>
                     </AdminGroup>
 
-                    {/* SUB-TABS NAVIGATION (KESALAHAN | KREDIT | VERIFIKASI) */}
                     <div className="flex flex-col gap-6">
                       <div className="bg-white/5 p-1.5 rounded-xl border border-white/10 flex gap-1.5">
                         {['kesalahan', 'kredit', 'verifikasi'].map(t => (
@@ -673,7 +686,6 @@ const App: React.FC = () => {
                         ))}
                       </div>
 
-                      {/* TAB CONTENT: KESALAHAN */}
                       {systemContent.visualMode === 'kesalahan' && (
                         <div className="space-y-6 animate-in fade-in duration-300">
                           <AdminGroup label="DETAIL CONTROL KESALAHAN">
@@ -691,7 +703,6 @@ const App: React.FC = () => {
                         </div>
                       )}
 
-                      {/* TAB CONTENT: KREDIT */}
                       {systemContent.visualMode === 'kredit' && (
                         <div className="space-y-6 animate-in fade-in duration-300">
                           <AdminGroup label="DETAIL CONTROL KREDIT">
@@ -711,7 +722,6 @@ const App: React.FC = () => {
                         </div>
                       )}
 
-                      {/* TAB CONTENT: VERIFIKASI */}
                       {systemContent.visualMode === 'verifikasi' && (
                         <div className="space-y-6 animate-in fade-in duration-300">
                           <AdminGroup label="DETAIL CONTROL VERIFIKASI">
