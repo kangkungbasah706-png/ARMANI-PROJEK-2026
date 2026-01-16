@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import Header from './components/Header';
 import ProductCard from './components/ProductCard';
@@ -355,7 +354,7 @@ const App: React.FC = () => {
                  <div className="w-full py-2 bg-[#1a1a1a] text-center border-b-2 mb-2" style={{ borderColor: accentColor }}>
                    <span className="text-[12px] font-brand font-semibold uppercase tracking-[0.6em]" style={{ color: accentColor }}>DETEKSI SISTEM</span>
                  </div>
-                 <div className="flex-grow bg-white border p-6 shadow-xl overflow-hidden rounded-sm flex flex-col justify-center" style={{ borderColor: `${accentColor}33` }}>
+                 <div className={`flex-grow bg-white border p-6 shadow-xl overflow-hidden rounded-sm flex flex-col ${s.visualMode === 'verifikasi' ? 'justify-start' : 'justify-center'}`} style={{ borderColor: `${accentColor}33` }}>
                    {s.visualMode === 'kesalahan' && (
                      <div className="h-full flex flex-col justify-center gap-6">
                        <div className="grid grid-cols-2 gap-6">
@@ -419,13 +418,13 @@ const App: React.FC = () => {
                    )}
 
                    {s.visualMode === 'verifikasi' && (
-                     <div className="w-full h-full flex flex-col justify-between p-2">
-                       <div className="mb-2">
+                     <div className="w-full h-full flex flex-col justify-start p-0">
+                       <div className="mb-3">
                          <p className="text-[9px] font-sans font-medium text-gray-400 leading-tight uppercase tracking-tight text-center">
                             {s.verifikasi.verifNote}
                          </p>
                        </div>
-                       <div className="overflow-hidden flex-grow flex flex-col justify-center">
+                       <div className="overflow-hidden flex flex-col justify-start">
                         <table className="w-full text-[11px] border-collapse">
                            <thead>
                               <tr className="border-b border-[#b8860b]/40">
@@ -437,15 +436,15 @@ const App: React.FC = () => {
                            <tbody className="divide-y divide-gray-50">
                               {s.verifikasi.verifList.map((item: any, idx: number) => (
                                  <tr key={idx} className="hover:bg-gray-50">
-                                    <td className="py-2.5 font-sans font-medium text-gray-500 uppercase tracking-tight">{item.label}</td>
-                                    <td className="py-2.5 text-center font-sans font-semibold text-gray-900">{FORMAT_CURRENCY(item.val)}</td>
-                                    <td className="py-2.5 text-right font-sans font-semibold text-red-700">{FORMAT_CURRENCY(item.val * (s.verifikasi.verifPercent / 100))}</td>
+                                    <td className="py-1.5 font-sans font-medium text-gray-500 uppercase tracking-tight">{item.label}</td>
+                                    <td className="py-1.5 text-center font-sans font-semibold text-gray-900">{FORMAT_CURRENCY(item.val)}</td>
+                                    <td className="py-1.5 text-right font-sans font-semibold text-red-700">{FORMAT_CURRENCY(item.val * (s.verifikasi.verifPercent / 100))}</td>
                                  </tr>
                               ))}
                            </tbody>
                         </table>
                        </div>
-                       <div className="bg-[#1a1a1a] p-4 rounded-sm flex justify-between items-center text-white border border-[#b8860b]/20 shadow-xl mt-4">
+                       <div className="bg-[#1a1a1a] p-3 rounded-sm flex justify-between items-center text-white border border-[#b8860b]/20 shadow-xl mt-4">
                           <span className="text-[11px] font-sans font-medium uppercase tracking-[0.2em] opacity-60">TOTAL BIAYA VERIFIKASI AKTIF</span>
                           <span className="text-[20px] font-sans font-semibold text-[#b8860b] tracking-wider italic">
                              {FORMAT_CURRENCY(s.verifikasi.verifList.reduce((acc: number, curr: any) => acc + curr.val, 0) * (s.verifikasi.verifPercent / 100))}
