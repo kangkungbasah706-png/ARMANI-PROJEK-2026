@@ -259,7 +259,7 @@ const App: React.FC = () => {
                     </div>
                   </div>
                 </div>
-                <div className="bg-gray-900 text-white p-7 rounded-sm shadow-2xl flex flex-col justify-between h-[280px]">
+                <div className="bg-gray-900 text-white p-7 rounded-sm shadow-2xl flex flex-col justify-start h-[280px]">
                   <div>
                     <h3 className="text-[12px] font-black text-[#800000] uppercase tracking-[0.3em] mb-5 border-l-2 border-[#800000] pl-3">Ketentuan Kontrak</h3>
                     <div className="space-y-2.5">
@@ -271,19 +271,13 @@ const App: React.FC = () => {
                       ))}
                     </div>
                   </div>
-                  <div className="mt-4 pt-4 border-t border-white/10 flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 rounded-full bg-[#800000] animate-pulse"></div>
-                      <span className="text-[10px] font-black uppercase text-white/70">{detailContent.contractStatus}</span>
-                    </div>
-                  </div>
                 </div>
               </div>
 
               {/* RIGHT: WORKFLOW & TASKS */}
               <div className="col-span-7 flex flex-col gap-6">
                 <div className="bg-white border border-gray-100 p-6 rounded-sm shadow-sm">
-                  <h3 className="text-[12px] font-black text-gray-400 uppercase tracking-[0.5em] mb-8 text-center">Operational Workflow</h3>
+                  <h3 className="text-[12px] font-black text-gray-400 uppercase tracking-[0.5em] mb-8 text-center">Panduan Pelaksanaan Tugas</h3>
                   <div className="grid grid-cols-3 gap-3">
                     {detailContent.workflowItems.map((item: any, i: number) => (
                       <div key={i} className="text-center group relative">
@@ -799,7 +793,7 @@ const App: React.FC = () => {
                       </div>
                     </AdminGroup>
 
-                    <AdminGroup label="Operational Workflow (Manually Editable)">
+                    <AdminGroup label="Panduan Pelaksanaan Tugas (Manually Editable)">
                       <div className="space-y-6">
                         {detailContent.workflowItems.map((item: any, idx: number) => (
                           <div key={idx} className="bg-black/20 p-4 rounded-xl border border-white/5 space-y-3">
